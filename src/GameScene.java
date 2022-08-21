@@ -22,14 +22,11 @@ public class GameScene extends JPanel{
     protected Score score;
 
     public GameScene(){
+        this.setPreferredSize(SCREEN_SIZE);
         newScull();
         newBall();
         newGates();
         score = new Score(GAME_WIDTH,GAME_HEIGHT);
-        this.setFocusable(true);
-        this.requestFocus();
-        this.addKeyListener(new Listener());
-        this.setPreferredSize(SCREEN_SIZE);
         gameLoop();
     }
 
@@ -132,6 +129,9 @@ public class GameScene extends JPanel{
 
     public void gameLoop(){
         new Thread( ()-> {
+            this.addKeyListener(new Listener());
+            this.setFocusable(true);
+            this.requestFocus();
             while (true){
                 move();
                 checkCollisions();

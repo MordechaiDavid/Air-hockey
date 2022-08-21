@@ -3,14 +3,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class WelcomePanel extends JPanel implements ActionListener {
+public class OpeningPanel extends JPanel implements ActionListener {
     public static final int PANEL_WIDTH = 600;
     public static final int PANEL_HEIGHT = 600;
     protected JFrame gameFrame;
     protected JLabel message;
     protected JButton startButton;
 
-    public WelcomePanel(JFrame gameFrame){
+    public OpeningPanel(JFrame gameFrame){
         this.gameFrame = gameFrame;
         message = new JLabel("Air Hockey");
         Font messageFont = new Font("Ink Free", Font.BOLD, 90);
@@ -21,10 +21,10 @@ public class WelcomePanel extends JPanel implements ActionListener {
         message.setBounds((PANEL_WIDTH)/2- (messageWidth/2), 85, messageWidth, 120 );
 
         startButton = new JButton("Start Game");
-        startButton.setFont(new Font("Ink Free", Font.BOLD, 30));
+        startButton.setFont(new Font("Ink Free", Font.BOLD, 32));
         startButton.setForeground(Color.red);
-        startButton.setBackground(Color.white);
-        startButton.setBounds((PANEL_WIDTH/2)-(200/2), message.getY()+message.getHeight()+60, 200, 100);
+        startButton.setBackground(Color.lightGray);
+        startButton.setBounds((PANEL_WIDTH/2)-(220/2), message.getY()+message.getHeight()+60, 220, 100);
         startButton.addActionListener(this);
 
         this.add(message);
@@ -43,14 +43,9 @@ public class WelcomePanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==startButton){
-
-                gameFrame.getContentPane().removeAll();
-                gameFrame.getContentPane().add(new GameScene());
-                gameFrame.pack();
-
-
+            gameFrame.add(new GameScene());
+            gameFrame.pack();
             gameFrame.setLocationRelativeTo(null);
-
         }
 
     }
