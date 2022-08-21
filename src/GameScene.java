@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.security.Key;
 import java.util.*;
 import javax.swing.*;
 
@@ -13,8 +14,8 @@ public class GameScene extends JPanel{
     public static final int PADDLE_WIDTH = 50;
     public static final int PADDLE_HEIGHT = 50;
     protected Random random;
-    protected Scull paddle1;
-    protected Scull paddle2;
+    protected Scull scull1;
+    protected Scull scull2;
     protected Gate gate1;
     protected Gate gate2;
     protected Ball ball;
@@ -26,6 +27,7 @@ public class GameScene extends JPanel{
         newGates();
         score = new Score(GAME_WIDTH,GAME_HEIGHT);
         this.setFocusable(true);
+        this.requestFocus();
         this.addKeyListener(new Listener());
         this.setPreferredSize(SCREEN_SIZE);
         gameLoop();
@@ -36,8 +38,8 @@ public class GameScene extends JPanel{
         ball = new Ball((GAME_WIDTH/2)-(BALL_DIAMETER/2),random.nextInt(GAME_HEIGHT-BALL_DIAMETER),BALL_DIAMETER,BALL_DIAMETER);
     }
     public void newScull() {
-        paddle1 = new Scull(0,(GAME_HEIGHT/2)-(PADDLE_HEIGHT/2),PADDLE_WIDTH,PADDLE_HEIGHT,1);
-        paddle2 = new Scull(GAME_WIDTH-PADDLE_WIDTH,(GAME_HEIGHT/2)-(PADDLE_HEIGHT/2),PADDLE_WIDTH,PADDLE_HEIGHT,2);
+        scull1 = new Scull(0,(GAME_HEIGHT/2)-(PADDLE_HEIGHT/2),PADDLE_WIDTH,PADDLE_HEIGHT,1);
+        scull2 = new Scull(GAME_WIDTH-PADDLE_WIDTH,(GAME_HEIGHT/2)-(PADDLE_HEIGHT/2),PADDLE_WIDTH,PADDLE_HEIGHT,2);
 
     }
     public void newGates(){
@@ -48,15 +50,15 @@ public class GameScene extends JPanel{
         super.paintComponent(g);
         gate1.paint(g);
         gate2.paint(g);
-        paddle1.paint(g);
-        paddle2.paint(g);
+        scull1.paint(g);
+        scull2.paint(g);
         ball.paint(g);
         score.draw(g);
     }
 
     public void move() {
-        paddle1.move();
-        paddle2.move();
+        scull1.move();
+        scull2.move();
         ball.move();
     }
 
@@ -69,34 +71,37 @@ public class GameScene extends JPanel{
         if(ball.y >= GAME_HEIGHT-BALL_DIAMETER) {
             ball.setYDirection(-ball.yVelocity);
         }
-
         //bounce ball off paddles
-        if(ball.intersects(paddle1) && !(ball.intersects(gate1))) {
-              ball.setXDirection(Math.abs(ball.xVelocity));
+        if(ball.intersects(scull1) && !(ball.intersects(gate1))) {
+            ball.setXDirection(Math.abs(ball.xVelocity));
+            if (scull1.x > GAME_WIDTH/4)
+                ball.setXDirection(ball.xVelocity++);
         }
-        if(ball.intersects(paddle2) && !(ball.intersects(gate2))) {
+        if(ball.intersects(scull2) && !(ball.intersects(gate2))) {
             if (ball.xVelocity>0)
                 ball.setXDirection(-ball.xVelocity);
+            if (scull2.x < (GAME_WIDTH/4)*3)
+                ball.setYDirection(ball.yVelocity++);
         }
 
         //stop paddles when they reach the window edges
-        if(paddle1.y<=0)
-            paddle1.y=0;
-        if (paddle1.x<=0)
-            paddle1.x = 0;
-        if(paddle1.y >= (GAME_HEIGHT-PADDLE_HEIGHT))
-            paddle1.y = GAME_HEIGHT-PADDLE_HEIGHT;
-        if (paddle1.x >= (GAME_WIDTH/2)-PADDLE_WIDTH)
-            paddle1.x = (GAME_WIDTH/2)-PADDLE_WIDTH;
+        if(scull1.y<=0)
+            scull1.y=0;
+        if (scull1.x<=0)
+            scull1.x = 0;
+        if(scull1.y >= (GAME_HEIGHT-PADDLE_HEIGHT))
+            scull1.y = GAME_HEIGHT-PADDLE_HEIGHT;
+        if (scull1.x >= (GAME_WIDTH/2)-PADDLE_WIDTH)
+            scull1.x = (GAME_WIDTH/2)-PADDLE_WIDTH;
 
-        if(paddle2.y<=0)
-            paddle2.y=0;
-        if (paddle2.x>=GAME_WIDTH-PADDLE_WIDTH)
-            paddle2.x =GAME_WIDTH-PADDLE_WIDTH;
-        if(paddle2.y >= (GAME_HEIGHT-PADDLE_HEIGHT))
-            paddle2.y = GAME_HEIGHT-PADDLE_HEIGHT;
-        if (paddle2.x <= (GAME_WIDTH/2))
-            paddle2.x = (GAME_WIDTH/2);
+        if(scull2.y<=0)
+            scull2.y=0;
+        if (scull2.x>=GAME_WIDTH-PADDLE_WIDTH)
+            scull2.x =GAME_WIDTH-PADDLE_WIDTH;
+        if(scull2.y >= (GAME_HEIGHT-PADDLE_HEIGHT))
+            scull2.y = GAME_HEIGHT-PADDLE_HEIGHT;
+        if (scull2.x <= (GAME_WIDTH/2))
+            scull2.x = (GAME_WIDTH/2);
 
         //give a players points and creates new paddles & ball
         if(ball.intersects(gate2)) {
@@ -148,12 +153,12 @@ public class GameScene extends JPanel{
         }
 
         public void keyPressed(KeyEvent e) {
-            paddle1.keyPressed(e);
-            paddle2.keyPressed(e);
+            scull1.keyPressed(e);
+            scull2.keyPressed(e);
         }
         public void keyReleased(KeyEvent e) {
-            paddle1.keyReleased(e);
-            paddle2.keyReleased(e);
+            scull1.keyReleased(e);
+            scull2.keyReleased(e);
         }
     }
 

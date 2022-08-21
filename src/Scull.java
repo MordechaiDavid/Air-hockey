@@ -8,7 +8,7 @@ public class Scull extends Rectangle {
 
     protected int speed = 5;
     protected int userId;
-    protected int ySpeed, xSpeed;
+    protected int yVelocity, xVelocity;
 
 
     public Scull(int x, int y, int PADDLE_WIDTH, int PADDLE_HEIGHT, int id) {
@@ -18,16 +18,16 @@ public class Scull extends Rectangle {
 
 
     public void setYDirection(int yDirection) {
-        ySpeed = yDirection;
+        yVelocity = yDirection;
     }
 
     public void setXDirection(int yDirection) {
-        xSpeed = yDirection;
+        xVelocity = yDirection;
     }
 
     public void move() {
-        y = y + ySpeed;
-        x = x + xSpeed;
+        y = y + yVelocity;
+        x = x + xVelocity;
     }
 
     public void paint(Graphics g) {
