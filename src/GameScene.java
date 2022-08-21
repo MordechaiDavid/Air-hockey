@@ -137,7 +137,7 @@ public class GameScene extends JPanel{
                 checkCollisions();
                 repaint();
                 try {
-                    Thread.sleep(8);
+                    Thread.sleep(7);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
